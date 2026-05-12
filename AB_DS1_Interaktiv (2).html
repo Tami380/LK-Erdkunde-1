@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Freihandel & Protektionismus – Arbeitsblätter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* ── Reset & Variablen ────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bd: #1F3864;
+  --bm: #2E75B6;
+  --bl: #D6E4F0;
+  --bl2: #eaf1f8;
+  --or: #C55A11;
+  --ol: #FFF3E0;
+  --gd: #375623;
+  --gl: #EAF4EA;
+  --gr: #F4F6F9;
+  --white: #FFFFFF;
+  --text: #1a1a2e;
+  --muted: #6b7280;
+  --radius: 10px;
+  --shadow: 0 2px 16px rgba(31,56,100,0.10);
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--gr);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── Nav ──────────────────────────────────────────────────────────────── */
+.topbar {
+  background: var(--bd);
+  color: white;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+}
+.topbar-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.01em;
+}
+.topbar-sub {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  margin-left: 1rem;
+  font-weight: 300;
+}
+.topbar-actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+/* ── Buttons ──────────────────────────────────────────────────────────── */
+.btn {
+  padding: 0.45rem 1.1rem;
+  border-radius: 6px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s;
+  letter-spacing: 0.02em;
+}
+.btn-primary { background: var(--bm); color: white; }
+.btn-primary:hover { background: #1d5fa8; }
+.btn-success { background: var(--gd); color: white; }
+.btn-success:hover { background: #2a4019; }
+.btn-outline { background: transparent; color: white; border: 1.5px solid rgba(255,255,255,0.5); }
+.btn-outline:hover { border-color: white; background: rgba(255,255,255,0.1); }
+.btn-sm { padding: 0.3rem 0.7rem; font-size: 0.75rem; }
+
+/* ── Tabs ─────────────────────────────────────────────────────────────── */
+.tab-nav {
+  background: white;
+  border-bottom: 2px solid var(--bl);
+  padding: 0 2rem;
+  display: flex !important;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tab-nav::-webkit-scrollbar { display: none; }
+.tab-btn {
+  padding: 0.9rem 1.3rem;
+  border: none;
+  background: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.83rem;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  border-bottom: 2.5px solid transparent;
+  margin-bottom: -2px;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.tab-btn:hover { color: var(--bm); }
+.tab-btn.active { color: var(--bd); border-bottom-color: var(--bm); font-weight: 600; }
+
+/* ── Main Container ───────────────────────────────────────────────────── */
+.main { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+/* ── AB-Seite ─────────────────────────────────────────────────────────── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ── Abschnitt-Kopf ───────────────────────────────────────────────────── */
+.ab-header {
+  background: var(--bd);
+  color: white;
+  border-radius: var(--radius) var(--radius) 0 0;
+  padding: 1rem 1.4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0;
+}
+.ab-header h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+}
+.ab-header .sub { font-size: 0.75rem; opacity: 0.65; }
+
+.ab-card {
+  background: white;
+  border-radius: 0 0 var(--radius) var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.6rem 1.6rem 2rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ── Info-Box ─────────────────────────────────────────────────────────── */
+.infobox {
+  border-left: 4px solid var(--bm);
+  background: var(--bl2);
+  padding: 0.9rem 1.1rem;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 1.2rem;
+}
+.infobox.orange { border-color: var(--or); background: var(--ol); }
+.infobox.green  { border-color: var(--gd); background: var(--gl); }
+.infobox h4 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: var(--bd);
+}
+.infobox.orange h4 { color: var(--or); }
+.infobox.green h4  { color: var(--gd); }
+.infobox p, .infobox li {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+.infobox ul { padding-left: 1.2rem; }
+
+/* ── Aufgaben ─────────────────────────────────────────────────────────── */
+.aufgabe {
+  margin-bottom: 1.4rem;
+}
+.aufgabe-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  margin-bottom: 0.6rem;
+}
+.aufgabe-nr {
+  background: var(--bm);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.55rem;
+  border-radius: 5px;
+  white-space: nowrap;
+  margin-top: 0.05rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+.aufgabe-nr.or { background: var(--or); }
+.aufgabe-nr.gd { background: var(--gd); }
+.aufgabe-text {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* ── Eingabefelder ────────────────────────────────────────────────────── */
+textarea {
+  width: 100%;
+  border: 1.5px solid #d1dce8;
+  border-radius: 8px;
+  padding: 0.75rem 0.9rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--gr);
+  resize: vertical;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  min-height: 100px;
+}
+textarea:focus {
+  outline: none;
+  border-color: var(--bm);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(46,117,182,0.12);
+}
+
+/* ── Tabellen ─────────────────────────────────────────────────────────── */
+.dtab {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+}
+.dtab th {
+  background: var(--bm);
+  color: white;
+  padding: 0.55rem 0.7rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+.dtab td {
+  border: 1px solid #d1dce8;
+  padding: 0.55rem 0.7rem;
+  vertical-align: top;
+  line-height: 1.5;
+}
+.dtab tr:nth-child(even) td { background: var(--gr); }
+.dtab.green th { background: var(--gd); }
+.dtab.orange th { background: var(--or); }
+
+input[type="text"] {
+  width: 100%;
+  border: none;
+  border-bottom: 1.5px solid #aac0d8;
+  padding: 0.3rem 0.2rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  background: transparent;
+  color: var(--text);
+  transition: border-color 0.15s;
+}
+input[type="text"]:focus {
+  outline: none;
+  border-bottom-color: var(--bm);
+}
+
+/* ── Mindmap-Tabelle ──────────────────────────────────────────────────── */
+.mindmap-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.mindmap-cell {
+  background: var(--bl2);
+  border-radius: 8px;
+  padding: 0.7rem;
+}
+.mindmap-cell.center {
+  grid-column: 1 / -1;
+  background: var(--bd);
+  color: white;
+  text-align: center;
+  padding: 0.6rem;
+  font-family: 'DM Serif Display', serif;
+  font-size: 1rem;
+  border-radius: 8px;
+}
+.mindmap-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--bm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+.mindmap-cell input[type="text"] {
+  margin-bottom: 0.35rem;
+  display: block;
+}
+
+/* ── Gruppen-Badge ────────────────────────────────────────────────────── */
+.gruppe-badge {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin-right: 0.4rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.03em;
+}
+.badge-a { background: var(--bm); color: white; }
+.badge-b { background: var(--or); color: white; }
+.badge-c { background: var(--gd); color: white; }
+
+.gruppe-hinweis {
+  background: var(--gr);
+  border: 1px solid #d1dce8;
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  font-size: 0.84rem;
+  margin-bottom: 1rem;
+  color: var(--muted);
+}
+
+/* ── Sektion-Trenner ──────────────────────────────────────────────────── */
+.sbalken {
+  background: var(--bm);
+  color: white;
+  padding: 0.55rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  margin: 1.4rem 0 1rem;
+}
+.sbalken.or { background: var(--or); }
+.sbalken.gd { background: var(--gd); }
+.sbalken.bd { background: var(--bd); }
+
+/* ── Fortschritt ──────────────────────────────────────────────────────── */
+.progress-bar {
+  background: rgba(255,255,255,0.2);
+  height: 3px;
+  border-radius: 2px;
+  margin-top: 0.5rem;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: #7dd3fc;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+/* ── Speichern-Leiste ─────────────────────────────────────────────────── */
+.save-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-top: 2px solid var(--bl);
+  padding: 0.75rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 50;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+}
+.save-bar-info { font-size: 0.82rem; color: var(--muted); }
+.save-bar-info strong { color: var(--bd); }
+.save-bar-actions { display: flex; gap: 0.6rem; }
+
+/* ── Drucken ──────────────────────────────────────────────────────────── */
+@media print {
+  .topbar, .tab-nav, .save-bar, .no-print { display: none !important; }
+  body { background: white; font-size: 11pt; }
+  .main { max-width: 100%; padding: 0; }
+  .ab-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .infobox, .sbalken, .mindmap-cell { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .aufgabe-nr { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  textarea { border: 1px solid #ccc; background: white; resize: none; }
+  .page { display: block !important; page-break-after: always; }
+  .dtab th { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .topbar-sub { display: none; }
+  .main { padding: 1rem 0.75rem 5rem; }
+  .mindmap-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ── Animationen ──────────────────────────────────────────────────────── */
+.page.active { animation: fadeIn 0.2s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+.saved-toast {
+  position: fixed;
+  bottom: 80px;
+  right: 2rem;
+  background: var(--gd);
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-size: 0.83rem;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all 0.3s;
+  pointer-events: none;
+  z-index: 200;
+}
+.saved-toast.show { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+
+<!-- Topbar -->
+<div class="topbar">
+  <div style="display:flex;align-items:center;">
+    <div>
+      <div class="topbar-title">Freihandel & Protektionismus</div>
+    </div>
+    <span class="topbar-sub">DS 1 · Erdkunde · Meixner</span>
+  </div>
+  <div class="topbar-actions">
+    <button class="btn btn-outline btn-sm no-print" onclick="saveToStorage()">💾 Speichern</button>
+    <button class="btn btn-success btn-sm no-print" onclick="window.print()">🖨️ Als PDF drucken</button>
+  </div>
+</div>
+
+<!-- Tab-Navigation -->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="showTab(0)">AB 1 – Globalisierung</button>
+  <button class="tab-btn" onclick="showTab(1)">AB 2 – Welthandel</button>
+  <button class="tab-btn" onclick="showTab(2)">AB 3 – Grundlagen</button>
+  <button class="tab-btn" onclick="showTab(3)">AB 4 – Gruppe A/B</button>
+  <button class="tab-btn" onclick="showTab(4)">AB 5 – Gruppe C</button>
+  <button class="tab-btn" onclick="showTab(5)">AB 6 – Reflexion</button>
+</div>
+
+<div class="main">
+
+<!-- ══ AB 1 ══════════════════════════════════════════════════════════════ -->
+<div class="page active" id="page-0">
+  <div class="ab-header">
+    <div>
+      <h2>AB 1 – Globalisierung: Was weiß ich noch?</h2>
+      <div class="sub">Reaktivierung · Dimensionen und Ursachen der Globalisierung</div>
+    </div>
+  </div>
+  <div class="ab-card">
+
+    <div class="infobox">
+      <h4>Was ist Globalisierung?</h4>
+      <p>Globalisierung bezeichnet den Prozess der zunehmenden weltweiten Verflechtung in Wirtschaft, Politik, Gesellschaft und Umwelt. Drei zentrale Triebkräfte: <strong>(1) Sinkende Transport- und Kommunikationskosten</strong> – Containerisierung, Billigflug, Internet; <strong>(2) Politische Öffnung</strong> – Fall des Eisernen Vorhangs 1989, Gründung der WTO 1995; <strong>(3) Technologischer Fortschritt</strong> – digitale Vernetzung, KI. Ein Beispiel für alle drei: <strong>Shenzhen</strong> – die SWZ öffnete 1980 China für ADI, nutzte sinkende Logistikkosten und wurde durch Technologietransfer zur Exportweltstadt.</p>
+    </div>
+
+    <div class="aufgabe">
+      <div class="aufgabe-label">
+        <span class="aufgabe-nr">A 1</span>
+        <span class="aufgabe-text">Ergänze das Schema: Trage in jede Dimension zwei eigene Beispiele ein. Markiere außerdem, welche Dimension bei Shenzhen am stärksten sichtbar wurde – und warum.</span>
+      </div>
+      <div class="mindmap-grid">
+        <div class="mindmap-cell">
+          <div class="mindmap-label">Kommunikation</div>
+          <p style="font-size:0.78rem;color:var(--muted);margin-bottom:0.4rem;">Internet, Satelliten…</p>
+          <input type="text" id="mm-k1" placeholder="Eigenes Beispiel…">
+          <input type="text" id="mm-k2" placeholder="Eigenes Beispiel…">
+          <input type="text" id="mm-ks" placeholder="Shenzhen-Bezug…" style="margin-top:0.5rem;border-bottom-color:var(--bm);">
+        </div>
+        <div class="mindmap-cell">
+          <div class="mindmap-label">Ökonomie</div>
+          <p style="font-size:0.78rem;color:var(--muted);margin-bottom:0.4rem;">Welthandel, ADI…</p>
+          <input type="text" id="mm-o1" placeholder="Eigenes Beispiel…">
+          <input type="text" id="mm-o2" placeholder="Eigenes Beispiel…">
+          <input type="text" id="mm-os" placeholder="Shenzhen-Bezug…" style="margin-top:0.5rem;border-bottom-color:var(--bm);">
+        </div>
+        <div class="mindmap-cell">
+          <div class="mindmap-label">Gesellschaft</div>
+          <p style="font-size:0.78rem;color:var(--muted);margin-bottom:0.4rem;">Migration, Konsum…</p>
+          <input type="text" id="mm-g1" placeholder="Eigenes Beispiel…">
+          <input type="text" id="mm-g2" placeholder="Eigenes Beispiel…">
+          <input type="text" id="mm-gs" placeholder="Shenzhen-Bezug…" style="margin-top:0.5rem;border-bottom-color:var(--bm);">
+        </div>
+        <div class="mindmap-cell">
+          <div class="mindmap-label">Umwelt</div>
+          <p style="font-size:0.78rem;color:var(--muted);margin-bottom:0.4rem;">Ressourcen, Klima…</p>
+          <input type="text" id="mm-u1" placeholder="Eigenes Beispiel…">
+          <input type="text" id="mm-u2" placeholder="Eigenes Beispiel…">
+          <input type="text" id="mm-us" placeholder="Shenzhen-Bezug…" style="margin-top:0.5rem;border-bottom-color:var(--bm);">
+        </div>
+        <div class="mindmap-cell center">GLOBALISIERUNG = weltweite Verflechtung der Lebensbereiche</div>
+      </div>
+    </div>
+
+    <div class="aufgabe">
+      <div class="aufgabe-label">
+        <span class="aufgabe-nr">A 2</span>
+        <span class="aufgabe-text">Erkläre in 3–4 Sätzen: Welche der drei Triebkräfte war für die Entstehung der SWZ Shenzhen am wichtigsten? Nenne ADI, Exportorientierung und die Rolle des Staates.</span>
+      </div>
+      <textarea id="a1-2" rows="5" placeholder="Deine Antwort…"></textarea>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ AB 2 ══════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-1">
+  <div class="ab-header">
+    <div>
+      <h2>AB 2 – Welthandel aktuell: Wer profitiert?</h2>
+      <div class="sub">Analyse · WTO/UNCTAD-Daten 2024</div>
+    </div>
+  </div>
+  <div class="ab-card">
+
+    <div class="infobox">
+      <h4>Welthandel 2024 – aktuelle Zahlen (WTO/UNCTAD)</h4>
+      <p>Der globale Warenhandel erreichte 2024 ein Volumen von <strong>24,4 Billionen US-$</strong>. Das Wachstum betrug +2,9 % – erstmals seit 2017 schneller als das BIP-Wachstum (+2,8 %). Die Verteilung ist extrem ungleich: <strong>China, USA und Deutschland</strong> stellen zusammen über 30 % aller weltweiten Warenexporte, während ganz Afrika südlich der Sahara auf unter 2 % kommt. Länder des Globalen Südens exportieren überwiegend Rohstoffe mit geringer Wertschöpfung – und erzielen deutlich niedrigere Erlöse als Fertiggut-Exporteure.</p>
+    </div>
+
+    <div class="aufgabe">
+      <div class="aufgabe-label">
+        <span class="aufgabe-nr">A 3</span>
+        <span class="aufgabe-text">Analysiere die Tabelle: Welche Länder / Regionen dominieren den Welthandel? Was fällt dir bei der Warenstruktur auf? Formuliere eine Schlussfolgerung: Profitieren alle Länder gleichermaßen vom Welthandel?</span>
+      </div>
+      <table class="dtab">
+        <tr><th>Land / Region</th><th>Warenexporte 2024 (Mrd. US-$)</th><th>Anteil weltweit</th><th>Hauptexportgüter</th></tr>
+        <tr><td>China</td><td>3.580</td><td>~14,7 %</td><td>Elektronik, Maschinen, Fahrzeuge</td></tr>
+        <tr><td>USA</td><td>2.080</td><td>~8,5 %</td><td>Technologie, Energie, Landwirtschaft</td></tr>
+        <tr><td>Deutschland</td><td>1.680</td><td>~6,9 %</td><td>Autos, Maschinen, Chemie</td></tr>
+        <tr><td>Niederlande</td><td>736</td><td>~3,0 %</td><td>Re-Exporte, Agrar, Chemie</td></tr>
+        <tr><td>Japan</td><td>707</td><td>~2,9 %</td><td>Fahrzeuge, Elektronik</td></tr>
+        <tr><td>Afrika gesamt</td><td>~600</td><td>~2,5 %</td><td>Rohstoffe, Energie</td></tr>
+        <tr><td>Lateinamerika / Karibik</td><td>~800</td><td>~3,3 %</td><td>Agrar, Rohstoffe, Energie</td></tr>
+      </table>
+      <p style="font-size:0.75rem;color:var(--muted);margin-bottom:0.8rem;">Quelle: WTO Global Trade Outlook 2024/25, UNCTAD – eigene Darstellung</p>
+      <textarea id="a2-3" rows="5" placeholder="Deine Schlussfolgerung…"></textarea>
+    </div>
+
+    <div class="aufgabe">
+      <div class="aufgabe-label">
+        <span class="aufgabe-nr">A 4</span>
+        <span class="aufgabe-text">These: <em>„Der Welthandel vertieft die Kluft zwischen Arm und Reich."</em> – Nimm Stellung mit mindestens zwei Argumenten aus der Tabelle und dem Infotext.</span>
+      </div>
+      <textarea id="a2-4" rows="5" placeholder="Deine Stellungnahme…"></textarea>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ AB 3 ══════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-2">
+  <div class="ab-header">
+    <div>
+      <h2>AB 3 – Grundlagen: Freihandel & Protektionismus</h2>
+      <div class="sub">Basiswissen für alle Gruppen · Expertenpuzzle</div>
+    </div>
+  </div>
+  <div class="ab-card">
+
+    <div class="gruppe-hinweis">
+      <strong>Ablauf:</strong> Erst Basiswissen lesen (alle). Dann Stammgruppe (A, B oder C). Danach Expertengruppe (je eine Person pro Gruppe).
+    </div>
+    <div>
+      <span class="gruppe-badge badge-a">Gruppe A – Freihandel</span>
+      <span class="gruppe-badge badge-b">Gruppe B – Protektionismus</span>
+      <span class="gruppe-badge badge-c">Gruppe C – USA–China-Konflikt</span>
+    </div>
+
+    <div class="infobox" style="margin-top:1rem;">
+      <h4>Freihandel – Grundlagen</h4>
+      <p><strong>Definition:</strong> Freihandel = möglichst ungehinderter Austausch von Waren ohne Zölle, Quoten oder andere Hemmnisse. Theoretisches Fundament: <strong>komparativer Vorteil</strong> (Ricardo, 1817) – jedes Land produziert, was es relativ am günstigsten herstellen kann.</p>
+      <p style="margin-top:0.5rem;"><strong>Institutionen:</strong> WTO (164 Mitglieder), EU-Binnenmarkt, RCEP (größte Freihandelszone der Welt, 15 Länder), USMCA (Nordamerika), CETA (EU–Kanada).</p>
+      <p style="margin-top:0.5rem;"><strong>Vorteile:</strong> Effizienzgewinne, günstigere Preise, Wachstum. <strong>Nachteile:</strong> Industrieländer profitieren stärker; EL oft in Rohstoffabhängigkeit gefangen; Abhängigkeiten entstehen.</p>
+    </div>
+
+    <div class="infobox orange">
+      <h4>Protektionismus – Grundlagen</h4>
+      <p><strong>Definition:</strong> Staatliche Handelspolitik, die ausländische Konkurrenz durch Schutzmaßnahmen fernhält.</p>
+      <p style="margin-top:0.5rem;"><strong>Tarifäre Maßnahmen:</strong> Eingangszölle, Antidumpingzölle. <strong>Nicht-tarif äre Maßnahmen:</strong> Importquoten, Subventionen, bürokratische Einfuhrhürden.</p>
+      <p style="margin-top:0.5rem;"><strong>Aktuelle Beispiele 2024/25:</strong> USA: 25 % auf Stahl/Alu, 100 % auf chinesische E-Autos (Biden 2024), ab 2025 generelle Erhöhungen unter Trump. EU: Schutzzölle auf E-Autos aus China (bis 45 %). China: Exportbeschränkungen bei Seltenen Erden.</p>
+    </div>
+
+    <div class="aufgabe">
+      <div class="aufgabe-label">
+        <span class="aufgabe-nr">A 4</span>
+        <span class="aufgabe-text">Erstelle eine strukturierte Gegenüberstellung. Ergänze die Tabelle mit Infos aus dem Basistext und dem Schulbuch (Diercke S. 94–95).</span>
+      </div>
+      <table class="dtab">
+        <tr><th style="width:30%">Kriterium</th><th>Freihandel</th><th>Protektionismus</th></tr>
+        <tr><td>Ziel</td><td><input type="text" id="vgl-1a" placeholder="…"></td><td><input type="text" id="vgl-1b" placeholder="…"></td></tr>
+        <tr><td>Typische Maßnahmen</td><td><input type="text" id="vgl-2a" placeholder="…"></td><td><input type="text" id="vgl-2b" placeholder="…"></td></tr>
+        <tr><td>Vorteile</td><td><input type="text" id="vgl-3a" placeholder="…"></td><td><input type="text" id="vgl-3b" placeholder="…"></td></tr>
+        <tr><td>Risiken / Nachteile</td><td><input type="text" id="vgl-4a" placeholder="…"></td><td><input type="text" id="vgl-4b" placeholder="…"></td></tr>
+        <tr><td>Gewinner (Beispiel)</td><td><input type="text" id="vgl-5a" placeholder="…"></td><td><input type="text" id="vgl-5b" placeholder="…"></td></tr>
+        <tr><td>Verlierer (Beispiel)</td><td><input type="text" id="vgl-6a" placeholder="…"></td><td><input type="text" id="vgl-6b" placeholder="…"></td></tr>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ AB 4 ══════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-3">
+  <div class="ab-header">
+    <div>
+      <h2>AB 4 – Gruppe A & B vertieft</h2>
+      <div class="sub">Stammgruppenarbeit · Expertenpuzzle</div>
+    </div>
+  </div>
+  <div class="ab-card">
+
+    <div class="sbalken">Gruppe A – Freihandel: Wer profitiert wirklich?</div>
+
+    <div class="infobox">
+      <h4>Freihandel und Deutschland</h4>
+      <p>Deutschland: Exportquote ~<strong>47 % des BIP</strong> (2024) – jeder vierte Arbeitsplatz hängt am Export. Wichtigste Exportgüter: Kraftfahrzeuge und Kfz-Teile (ca. 18 % aller Exporte), Maschinen, Chemie, Pharmazeutika. Exportvolumen 2024: <strong>1.680 Mrd. US-$</strong> (Platz 3 weltweit). Abnehmer: USA (10 %), Frankreich (7 %), China (6 %). Gleichzeitig: stark abhängig von Importen – Halbleiter aus Taiwan, Seltene Erden aus China. → <strong>Doppelabhängigkeit:</strong> Deutschland braucht offene Export- UND Importmärkte. Protektionismus anderer Länder trifft Deutschland doppelt.</p>
+    </div>
+    <div class="infobox">
+      <h4>Freihandel und der Globale Süden – Terms of Trade</h4>
+      <p><strong>Terms of Trade</strong> = Verhältnis zwischen Exportpreisen und Importpreisen. Länder, die hauptsächlich Rohstoffe exportieren (Kaffee, Kakao, Kupfer), müssen für dieselbe Menge Fertigwaren immer mehr Rohstoffe abgeben – weil Rohstoffpreise langfristig langsamer steigen als Industriegüterpreise. Beispiel: Zwischen 1980 und 2010 fiel der reale Kakaopreis um über 40 %, während Maschinenpreise stiegen. Zudem subventionieren EU und USA ihre Landwirtschaft massiv und drücken damit Weltmarktpreise für Produkte, bei denen EL eigentlich konkurrenzfähig wären.</p>
+    </div>
+
+    <div class="aufgabe">
+      <div class="aufgabe-label">
+        <span class="aufgabe-nr">A 1</span>
+        <span class="aufgabe-text">Erkläre das Konzept der Terms of Trade in eigenen Worten. Warum ist es für Entwicklungsländer schwierig, allein durch Rohstoffexporte dauerhaft wirtschaftlich aufzuholen?</span>
+      </div>
+      <textarea id="a4-a1" rows="5" placeholder="Deine Antwort…"></textarea>
+    </div>
+
+    <div class="aufgabe">
+      <div class="aufgabe-label">
+        <span class="aufgabe-nr">A 2</span>
+        <span class="aufgabe-text">Warum ist Deutschland als Exportnation besonders auf Freihandel angewiesen? Beschreibe die Doppelabhängigkeit anhand der Automobilindustrie. Nutze Zahlen aus dem Infotext.</span>
+      </div>
+      <textarea id="a4-a2" rows="5" placeholder="Deine Antwort…"></textarea>
+    </div>
+
+    <div class="aufgabe">
+      <div class="aufgabe-label">
+        <span class="aufgabe-nr">A 3</span>
+        <span class="aufgabe-text">Beurteile: <em>„Der Freihandel nützt vor allem den reichen Industrieländern."</em> – Schreibe ein Pro-Argument, ein Kontra-Argument und dein eigenes Urteil (5–6 Sätze).</span>
+      </div>
+      <textarea id="a4-a3" rows="7" placeholder="Pro: …&#10;Kontra: …&#10;Mein Urteil: …"></textarea>
+    </div>
+
+    <div class="sbalken or">Gruppe B – Protektionismus: Schutz oder Sackgasse?</div>
+
+    <div class="infobox orange">
+      <h4>Der Aufstieg des Protektionismus seit 2018</h4>
+      <p>Seit ca. 2016 dreht sich der Trend um: Laut WTO stiegen weltweite importbeschränkende Maßnahmen von 8,8 % (2020) auf 11,8 % (2024) aller weltweiten Importe. Auslöser: USA unter Trump (1. Amtszeit): Zölle auf Stahl, Aluminium, China. EU 2024: bis zu 45 % auf chinesische E-Autos. China: Gegenzölle auf europ. Brandy, Schweinefleisch, Milchprodukte. <strong>Retaliationseffekte (Handelskrieg):</strong> Gegenzölle eskalieren – am Ende zahlen Verbraucher auf beiden Seiten mehr. Laut PIIE: +1.500 US-$/Haushalt/Jahr durch US-China-Konflikt.</p>
+    </div>
+
+    <div class="aufgabe">
+      <div class="aufgabe-label">
+        <span class="aufgabe-nr">B 1</span>
+        <span class="aufgabe-text">Erkläre den Begriff <strong>Retaliationseffekt</strong> anhand eines konkreten Beispiels. Warum ist ein Handelskrieg für alle Seiten schädlich?</span>
+      </div>
+      <textarea id="a4-b1" rows="5" placeholder="Deine Antwort…"></textarea>
+    </div>
+
+    <div class="aufgabe">
+      <div class="aufgabe-label">
+        <span class="aufgabe-nr">B 2</span>
+        <span class="aufgabe-text">Die EU hat 2024 Zölle auf chinesische E-Autos eingeführt. Analysiere: Wer profitiert? Wer verliert? (Denke an: europ. Autobauer, Verbraucher, chinesische Exporteure, europ. Exporteure nach China.)</span>
+      </div>
+      <textarea id="a4-b2" rows="5" placeholder="Profiteure: …&#10;Verlierer: …&#10;Bewertung: …"></textarea>
+    </div>
+
+    <div class="aufgabe">
+      <div class="aufgabe-label">
+        <span class="aufgabe-nr">B 3</span>
+        <span class="aufgabe-text">Beurteile: Sollte Deutschland / die EU Protektionismus als wirtschaftspolitisches Instrument einsetzen? Schreibe ein differenziertes Urteil mit mind. 2 Argumenten pro Seite (6–7 Sätze).</span>
+      </div>
+      <textarea id="a4-b3" rows="7" placeholder="Pro: …&#10;Kontra: …&#10;Mein Urteil: …"></textarea>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ AB 5 ══════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-4">
+  <div class="ab-header">
+    <div>
+      <h2>AB 5 – Gruppe C: USA–China Handelskonflikt</h2>
+      <div class="sub">Fallanalyse · 2018–2025 · aktuelle Daten</div>
+    </div>
+  </div>
+  <div class="ab-card">
+
+    <div class="sbalken gd">Gruppe C – Fallbeispiel: USA–China Handelskonflikt 2018–2025</div>
+
+    <div class="infobox green">
+      <h4>Hintergrund: Warum streiten USA und China?</h4>
+      <p>Die USA haben gegenüber China ein jährliches <strong>Handelsbilanzdefizit von rund 283 Mrd. US-$</strong> (2024): US-Importe aus China ca. 427 Mrd. US-$, US-Exporte nach China nur ca. 144 Mrd. US-$. US-Vorwürfe gegen China: (1) Staatliche Subventionen (BYD, Solarindustrie); (2) Technologiediebstahl; (3) Künstlich niedrig gehaltener Yuan; (4) Produktpiraterie. China wirft den USA vor, Freihandelsregeln zu verletzen und China durch Halbleiter-Exportverbote am Aufstieg zu hindern.</p>
+    </div>
+
+    <div class="aufgabe">
+      <div class="aufgabe-label">
+        <span class="aufgabe-nr gd">C 1</span>
+        <span class="aufgabe-text">Lese die Chronologie-Tabelle und beschreibe den Eskalationsverlauf. Wann war der Höhepunkt? Was führte zur Deeskalation im Mai 2025?</span>
+      </div>
+      <table class="dtab green">
+        <tr><th>Datum</th><th>USA-Maßnahme</th><th>China-Reaktion</th><th>Niveau (ca.)</th></tr>
+        <tr><td>Juli 2018</td><td>25 % auf Stahl/Alu; Elektronik (34 Mrd. $)</td><td>25 % auf Soja, Agrar</td><td>25 % | 25 %</td></tr>
+        <tr><td>Sep 2018</td><td>10–25 % auf Konsumgüter (200 Mrd. $)</td><td>Gegenzölle 60 Mrd. $</td><td>Eskalation</td></tr>
+        <tr><td>Jan 2020</td><td>Phase-1-Deal: Teilreduktion</td><td>CN kauft US-Waren</td><td>Stabilisierung</td></tr>
+        <tr><td>Sep 2024</td><td>Biden: 100 % auf E-Autos; 50 % Solar</td><td>Protest, Gegenzölle</td><td>100 % E-Autos</td></tr>
+        <tr><td>Feb 2025</td><td>Trump 2.0: +10 % auf alle CN-Waren</td><td>+15 % Kohle, LNG; +10 % Agrar</td><td>+10 % | +15 %</td></tr>
+        <tr><td>Apr 2025</td><td>Eskalation: 145 % auf alle CN-Waren</td><td>125 % auf alle US-Waren</td><td>145 % | 125 %</td></tr>
+        <tr><td>Mai 2025</td><td>90-Tage-Pause: Reduktion ~10–30 %</td><td>Gegenzölle teilw. aufgehoben</td><td>Deeskalation</td></tr>
+      </table>
+      <textarea id="a5-c1" rows="5" placeholder="Beschreibung des Eskalationsverlaufs…"></textarea>
+    </div>
+
+    <div class="aufgabe">
+      <div class="aufgabe-label">
+        <span class="aufgabe-nr gd">C 2</span>
+        <span class="aufgabe-text">US-Importe aus China: 427 Mrd. US-$, US-Exporte nach China: 144 Mrd. US-$. Warum betrachten die USA dieses Defizit als Problem? Ist ein Handelsbilanzdefizit automatisch schlecht? Nimm Stellung (4–5 Sätze).</span>
+      </div>
+      <textarea id="a5-c2" rows="5" placeholder="Deine Antwort…"></textarea>
+    </div>
+
+    <div class="aufgabe">
+      <div class="aufgabe-label">
+        <span class="aufgabe-nr gd">C 3</span>
+        <span class="aufgabe-text">Gibt es in diesem Handelsstreit klare Gewinner und Verlierer? Denke an: US-Verbraucher, US-Sojabauern, chinesische Exporteure, Vietnam / Mexiko als Ausweichmärkte, die Weltwirtschaft insgesamt (5–6 Sätze).</span>
+      </div>
+      <textarea id="a5-c3" rows="7" placeholder="Dein differenziertes Urteil…"></textarea>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ AB 6 ══════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-5">
+  <div class="ab-header">
+    <div>
+      <h2>AB 6 – Reflexion & Hausaufgabe</h2>
+      <div class="sub">Alle Gruppen · nach der Fishbowl-Diskussion</div>
+    </div>
+  </div>
+  <div class="ab-card">
+
+    <div class="sbalken bd">Reflexion nach der Fishbowl-Diskussion</div>
+
+    <div class="infobox" style="margin-top:1rem;">
+      <h4>Leitfrage der Stunde</h4>
+      <p><em>Ist Protektionismus eine sinnvolle Antwort auf die Herausforderungen der globalisierten Welt?</em></p>
+    </div>
+
+    <div class="aufgabe">
+      <div class="aufgabe-label">
+        <span class="aufgabe-nr">R 1</span>
+        <span class="aufgabe-text">Beantworte die Leitfrage in 5–6 Sätzen. Nenne mindestens zwei konkrete Beispiele (Länder, Maßnahmen, Daten) und formuliere ein abschließendes Urteil.</span>
+      </div>
+      <textarea id="a6-r1" rows="8" placeholder="Dein Urteil zur Leitfrage…"></textarea>
+    </div>
+
+    <div class="aufgabe">
+      <div class="aufgabe-label">
+        <span class="aufgabe-nr">R 2</span>
+        <span class="aufgabe-text">Ordne die Akteure zu: Kreuze an, welche Handelsform sie eher begünstigt. Manche können von beidem profitieren – dann beide ankreuzen.</span>
+      </div>
+      <table class="dtab">
+        <tr><th>Akteur</th><th style="width:15%;text-align:center">eher Freihandel ✔</th><th style="width:15%;text-align:center">eher Protektionismus ✔</th></tr>
+        <tr><td>Multinationale Konzerne (z. B. Apple, VW)</td>
+          <td style="text-align:center"><input type="checkbox" id="r2-1a"></td>
+          <td style="text-align:center"><input type="checkbox" id="r2-1b"></td></tr>
+        <tr><td>Verbraucher / Konsumenten</td>
+          <td style="text-align:center"><input type="checkbox" id="r2-2a"></td>
+          <td style="text-align:center"><input type="checkbox" id="r2-2b"></td></tr>
+        <tr><td>Heimische KMU (z. B. dt. Mittelstand)</td>
+          <td style="text-align:center"><input type="checkbox" id="r2-3a"></td>
+          <td style="text-align:center"><input type="checkbox" id="r2-3b"></td></tr>
+        <tr><td>Entwicklungsländer (Rohstoffexport)</td>
+          <td style="text-align:center"><input type="checkbox" id="r2-4a"></td>
+          <td style="text-align:center"><input type="checkbox" id="r2-4b"></td></tr>
+        <tr><td>Arbeitnehmer in Billiglohnländern</td>
+          <td style="text-align:center"><input type="checkbox" id="r2-5a"></td>
+          <td style="text-align:center"><input type="checkbox" id="r2-5b"></td></tr>
+        <tr><td>Staat / Regierung eines Industrielandes</td>
+          <td style="text-align:center"><input type="checkbox" id="r2-6a"></td>
+          <td style="text-align:center"><input type="checkbox" id="r2-6b"></td></tr>
+      </table>
+    </div>
+
+    <div style="background:var(--ol);border-left:4px solid var(--or);border-radius:0 8px 8px 0;padding:1rem 1.2rem;margin-top:1.2rem;">
+      <p style="font-weight:700;color:var(--or);font-size:0.9rem;margin-bottom:0.6rem;">Hausaufgabe für Doppelstunde 2 (Global Governance)</p>
+      <p style="font-size:0.88rem;line-height:1.6;">Lest im Schulbuch <strong>S. 360–361</strong> (WTO und IWF) und notiert:</p>
+      <ul style="font-size:0.88rem;padding-left:1.2rem;margin-top:0.4rem;line-height:1.7;">
+        <li>Drei Hauptziele der WTO</li>
+        <li>Warum werden IWF-Kreditbedingungen von Entwicklungsländern oft als Bevormundung empfunden?</li>
+        <li><strong>Bonus (freiwillig):</strong> Sucht 1 aktuelles Beispiel aus den Nachrichten zu Freihandel oder Protektionismus.</li>
+      </ul>
+      <textarea id="a6-ha" rows="5" style="margin-top:0.8rem;" placeholder="Deine HA-Notizen…"></textarea>
+    </div>
+
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<!-- Speicher-Leiste -->
+<div class="save-bar no-print">
+  <div class="save-bar-info">
+    Deine Eingaben werden <strong>automatisch gespeichert</strong> (lokal im Browser).
+  </div>
+  <div class="save-bar-actions">
+    <button class="btn btn-outline btn-sm" style="color:var(--muted);border-color:#d1dce8;" onclick="clearAll()">🗑️ Alles löschen</button>
+    <button class="btn btn-primary btn-sm" onclick="saveToStorage()">💾 Speichern</button>
+    <button class="btn btn-success btn-sm" onclick="window.print()">🖨️ Als PDF speichern</button>
+  </div>
+</div>
+
+<div class="saved-toast" id="toast">✓ Gespeichert!</div>
+
+<script>
+// ── Tab-Navigation ─────────────────────────────────────────────────────
+function showTab(i) {
+  document.querySelectorAll('.page').forEach((p, j) => {
+    p.classList.toggle('active', i === j);
+  });
+  document.querySelectorAll('.tab-btn').forEach((b, j) => {
+    b.classList.toggle('active', i === j);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── Alle Felder sammeln ────────────────────────────────────────────────
+function getAllData() {
+  const data = {};
+  document.querySelectorAll('textarea, input[type="text"]').forEach(el => {
+    if (el.id) data[el.id] = el.value;
+  });
+  document.querySelectorAll('input[type="checkbox"]').forEach(el => {
+    if (el.id) data[el.id] = el.checked;
+  });
+  return data;
+}
+
+function setAllData(data) {
+  Object.entries(data).forEach(([id, val]) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (el.type === 'checkbox') el.checked = val;
+    else el.value = val;
+  });
+}
+
+// ── Speichern & Laden ──────────────────────────────────────────────────
+function saveToStorage() {
+  try {
+    localStorage.setItem('ek-ds1-data', JSON.stringify(getAllData()));
+    showToast();
+  } catch(e) {
+    alert('Speichern nicht möglich – bitte als PDF sichern.');
+  }
+}
+
+function loadFromStorage() {
+  try {
+    const raw = localStorage.getItem('ek-ds1-data');
+    if (raw) setAllData(JSON.parse(raw));
+  } catch(e) {}
+}
+
+function clearAll() {
+  if (!confirm('Alle Eingaben löschen? Das kann nicht rückgängig gemacht werden.')) return;
+  document.querySelectorAll('textarea, input[type="text"]').forEach(el => el.value = '');
+  document.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false);
+  localStorage.removeItem('ek-ds1-data');
+}
+
+function showToast() {
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ── Auto-Save alle 30 Sek. ─────────────────────────────────────────────
+setInterval(saveToStorage, 30000);
+
+// ── Eingabe-Events für Fortschritt ─────────────────────────────────────
+document.addEventListener('input', () => {
+  saveToStorage();
+});
+
+// ── Init ───────────────────────────────────────────────────────────────
+loadFromStorage();
+</script>
+
+</body>
+</html>
