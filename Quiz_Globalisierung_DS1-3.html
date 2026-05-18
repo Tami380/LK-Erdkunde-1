@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz – Globalisierung & Global Governance</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bd: #1F3864;
+  --bm: #2E75B6;
+  --bl: #D6E4F0;
+  --or: #C55A11;
+  --ol: #FFF3E0;
+  --gd: #375623;
+  --gl: #EAF4EA;
+  --gr: #F4F6F9;
+  --ac: #E8325A;
+  --yl: #FFD700;
+  --white: #ffffff;
+  --text: #1a1a2e;
+  --muted: #6b7280;
+  --radius: 12px;
+}
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: var(--gr);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Header ── */
+.header {
+  background: var(--bd);
+  color: white;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.header-title { font-size: 1.1rem; font-weight: 700; }
+.header-sub   { font-size: 0.78rem; opacity: 0.7; }
+.timer-box {
+  background: rgba(255,255,255,0.15);
+  border-radius: 8px;
+  padding: 0.4rem 1rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--yl);
+  min-width: 90px;
+  text-align: center;
+}
+
+/* ── Progress ── */
+.progress-bar {
+  height: 5px;
+  background: rgba(255,255,255,0.2);
+  position: relative;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--yl);
+  transition: width 0.4s ease;
+}
+
+/* ── Main ── */
+.main {
+  flex: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 4rem;
+  width: 100%;
+}
+
+/* ── Screens ── */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ── Startscreen ── */
+.start-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 2.5rem 2rem;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  margin-top: 2rem;
+}
+.start-card h1 {
+  font-size: 1.8rem;
+  color: var(--bd);
+  margin-bottom: 0.5rem;
+}
+.start-card p {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+.badge-row {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+.badge {
+  background: var(--bl);
+  color: var(--bd);
+  border-radius: 20px;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+/* ── Frage-Card ── */
+.frage-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+.frage-nr {
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+.ds-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  background: var(--bl);
+  color: var(--bd);
+}
+.ds-badge.ds2 { background: #D8F3DC; color: #1B4332; }
+.ds-badge.ds3 { background: var(--ol); color: var(--or); }
+
+.frage-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 1.8rem 1.5rem 1.5rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  margin-bottom: 1rem;
+}
+.frage-text {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--bd);
+  line-height: 1.5;
+  margin-bottom: 1.4rem;
+}
+
+/* ── Antwortbuttons ── */
+.antworten {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+}
+@media (max-width: 500px) {
+  .antworten { grid-template-columns: 1fr; }
+}
+
+.antwort-btn {
+  border: 2px solid #e2e8f0;
+  background: var(--gr);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+  line-height: 1.4;
+}
+.antwort-btn:hover:not(:disabled) {
+  border-color: var(--bm);
+  background: var(--bl);
+}
+.antwort-btn.richtig {
+  border-color: var(--gd);
+  background: var(--gl);
+  color: var(--gd);
+  font-weight: 600;
+}
+.antwort-btn.falsch {
+  border-color: var(--ac);
+  background: #fdeef2;
+  color: var(--ac);
+}
+.antwort-btn.neutral {
+  border-color: #e2e8f0;
+  opacity: 0.5;
+}
+.antwort-btn:disabled { cursor: default; }
+
+/* ── Feedback ── */
+.feedback {
+  display: none;
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+.feedback.richtig {
+  background: var(--gl);
+  border-left: 4px solid var(--gd);
+  color: var(--gd);
+}
+.feedback.falsch {
+  background: #fdeef2;
+  border-left: 4px solid var(--ac);
+  color: #8b0000;
+}
+.feedback.show { display: block; }
+.feedback strong { display: block; margin-bottom: 0.3rem; font-size: 1rem; }
+
+/* ── Weiter-Button ── */
+.weiter-btn {
+  display: none;
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.9rem;
+  background: var(--bd);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+.weiter-btn:hover { background: var(--bm); }
+.weiter-btn.show { display: block; }
+
+/* ── Ergebnis ── */
+.ergebnis-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 2.5rem 2rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  text-align: center;
+  margin-top: 1rem;
+}
+.score-ring {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: white;
+}
+.score-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  opacity: 0.9;
+  margin-top: -4px;
+}
+.ergebnis-card h2 { font-size: 1.4rem; color: var(--bd); margin-bottom: 0.5rem; }
+.ergebnis-card p  { color: var(--muted); font-size: 0.95rem; margin-bottom: 1.5rem; }
+
+.stats-row {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+.stat {
+  text-align: center;
+}
+.stat-val { font-size: 1.6rem; font-weight: 800; color: var(--bd); }
+.stat-lbl { font-size: 0.75rem; color: var(--muted); }
+
+.restart-btn {
+  padding: 0.85rem 2rem;
+  background: var(--bm);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+.restart-btn:hover { background: var(--bd); }
+
+.start-btn {
+  padding: 0.9rem 2.5rem;
+  background: var(--bm);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+.start-btn:hover { background: var(--bd); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="header-title">Quiz – Globalisierung & Global Governance</div>
+    <div class="header-sub">Erdkunde · Meixner · DS 1–3</div>
+  </div>
+  <div class="timer-box" id="timer">00:00</div>
+</div>
+<div class="progress-bar">
+  <div class="progress-fill" id="progress" style="width:0%"></div>
+</div>
+
+<div class="main">
+
+  <!-- START -->
+  <div class="screen active" id="screen-start">
+    <div class="start-card">
+      <h1>🌐 Quiz</h1>
+      <p>Teste dein Wissen aus allen drei Doppelstunden.<br>
+         Wähle eine Antwort – du siehst sofort ob sie richtig ist und warum.</p>
+      <div class="badge-row">
+        <span class="badge">DS 1 · Freihandel & Protektionismus</span>
+        <span class="badge ds2">DS 2 · Global Governance</span>
+        <span class="badge ds3">DS 3 · Ende der Globalisierung?</span>
+      </div>
+      <p><strong id="fragen-count"></strong> Fragen · Timer läuft mit</p>
+      <br>
+      <button class="start-btn" onclick="startQuiz()">Los geht's →</button>
+    </div>
+  </div>
+
+  <!-- FRAGE -->
+  <div class="screen" id="screen-frage">
+    <div class="frage-meta">
+      <span class="frage-nr" id="frage-nr">Frage 1 / 20</span>
+      <span class="ds-badge" id="ds-badge">DS 1</span>
+    </div>
+    <div class="frage-card">
+      <div class="frage-text" id="frage-text"></div>
+      <div class="antworten" id="antworten"></div>
+      <div class="feedback" id="feedback"></div>
+      <button class="weiter-btn" id="weiter-btn" onclick="naechste()">Weiter →</button>
+    </div>
+  </div>
+
+  <!-- ERGEBNIS -->
+  <div class="screen" id="screen-ergebnis">
+    <div class="ergebnis-card">
+      <div class="score-ring" id="score-ring">
+        <div id="score-text">0/0</div>
+        <div class="score-label">Punkte</div>
+      </div>
+      <h2 id="ergebnis-titel">Gut gemacht!</h2>
+      <p id="ergebnis-text"></p>
+      <div class="stats-row">
+        <div class="stat">
+          <div class="stat-val" id="stat-richtig">0</div>
+          <div class="stat-lbl">Richtig</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val" id="stat-falsch">0</div>
+          <div class="stat-lbl">Falsch</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val" id="stat-zeit">0:00</div>
+          <div class="stat-lbl">Zeit</div>
+        </div>
+      </div>
+      <button class="restart-btn" onclick="restartQuiz()">🔄 Nochmal spielen</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── Fragen ────────────────────────────────────────────────────────────────────
+const FRAGEN = [
+  // DS 1
+  {
+    ds: "DS 1",
+    frage: "Was versteht man unter dem Begriff „Freihandel"?",
+    antworten: [
+      "Staatlicher Schutz heimischer Industrien durch Zölle und Quoten",
+      "Möglichst ungehinderter Austausch von Waren ohne Zölle oder Hemmnisse",
+      "Handel ausschließlich zwischen befreundeten Staaten",
+      "Der kostenlose Vertrieb digitaler Produkte im Internet",
+    ],
+    richtig: 1,
+    erklaerung_richtig: "Freihandel bedeutet: keine Zölle, keine Importquoten, keine künstlichen Hemmnisse. Ziel ist Effizienz durch Spezialisierung – jedes Land produziert, was es am günstigsten kann (Komparativer Vorteil, Ricardo).",
+    erklaerung_falsch: "Das beschreibt Protektionismus (A), Friendshoring (C) oder etwas ganz anderes (D). Freihandel meint den offenen, unregulierten Austausch von Waren zwischen Staaten.",
+  },
+  {
+    ds: "DS 1",
+    frage: "Was ist ein „Retaliationseffekt" im Welthandel?",
+    antworten: [
+      "Ein Effizienzgewinn durch internationale Spezialisierung",
+      "Die Eskalation von Handelskonflikten durch gegenseitige Zollerhöhungen",
+      "Der Vorteil, den ein Land durch niedrige Löhne erzielt",
+      "Die Übertragung von Technologie zwischen Ländern",
+    ],
+    richtig: 1,
+    erklaerung_richtig: "Retaliationseffekt = Gegenzoll-Spirale: Land A erhebt Zölle → Land B antwortet mit Gegenzöllen → beide schaden sich. US-China-Konflikt 2018–2025 ist das beste Beispiel: 2025 erhoben beide Seiten Zölle von über 100%.",
+    erklaerung_falsch: "Effizienzgewinne (A) entstehen durch Spezialisierung, nicht durch Konflikte. Lohnvorteile (C) sind ein anderes Konzept. Der Retaliationseffekt ist speziell die Eskalationsspirale im Handelskrieg.",
+  },
+  {
+    ds: "DS 1",
+    frage: "Welches Handelsbilanzdefizit hatte die USA gegenüber China im Jahr 2024?",
+    antworten: [
+      "Ca. 50 Mrd. US-$",
+      "Ca. 150 Mrd. US-$",
+      "Ca. 283 Mrd. US-$",
+      "Ca. 500 Mrd. US-$",
+    ],
+    richtig: 2,
+    erklaerung_richtig: "USA importierten ca. 427 Mrd. US-$ aus China, exportierten aber nur ca. 144 Mrd. US-$ → Defizit: 283 Mrd. US-$. Das ist der Hauptgrund für den US-China Handelskonflikt.",
+    erklaerung_falsch: "Das Defizit war deutlich höher als 50 oder 150 Mrd. – und noch nicht ganz so hoch wie 500 Mrd. Die korrekte Zahl: 283 Mrd. US-$ (2024, US Census Bureau).",
+  },
+  {
+    ds: "DS 1",
+    frage: "Was beschreibt das „Fluggans-Modell" (Akamatsu)?",
+    antworten: [
+      "Die Verlagerung von Industrieproduktion von teuren zu günstigeren Standorten",
+      "Den Rückgang der globalen Vogelarten durch Industriealisierung",
+      "Die Theorie, dass Entwicklungsländer nie aufholen können",
+      "Ein Modell zur Berechnung von Flugzeugproduktionskosten",
+    ],
+    richtig: 0,
+    erklaerung_richtig: "Das Fluggans-Modell zeigt: Industrieproduktion wandert von teuren Ländern (Japan) zu günstigeren (Südkorea, Taiwan → China → Vietnam). Wenn Löhne steigen, zieht Kapital weiter – wie ein Schwarm Gänse. Shenzhen ist das Paradebeispiel.",
+    erklaerung_falsch: "Das Modell hat nichts mit echten Vögeln (B), Entwicklungspessimismus (C) oder Flugzeugen (D) zu tun. Es beschreibt die wirtschaftliche Aufholentwicklung durch Wanderung von Investitionskapital.",
+  },
+  {
+    ds: "DS 1",
+    frage: "Was sind „Terms of Trade"?",
+    antworten: [
+      "Die Handelsregeln der WTO",
+      "Das Verhältnis zwischen Export- und Importpreisen eines Landes",
+      "Die Bedingungen für EU-Freihandelsabkommen",
+      "Die Öffnungszeiten internationaler Warenbörsen",
+    ],
+    richtig: 1,
+    erklaerung_richtig: "Terms of Trade = Exportpreisindex ÷ Importpreisindex × 100. Verschlechtern sie sich, muss ein Land mehr exportieren, um dieselbe Menge importieren zu können – wie Ghana: 1980 = 10 kg Kakao kauft 1 Maschine, 2010 = 25 kg Kakao für dieselbe Maschine.",
+    erklaerung_falsch: "Terms of Trade haben nichts mit WTO-Regeln (A), EU-Abkommen (C) oder Börsenzeiten (D) zu tun. Sie beschreiben das Preisverhältnis zwischen Im- und Exporten.",
+  },
+  {
+    ds: "DS 1",
+    frage: "Deutschland hat eine Exportquote von ca. 47 % des BIP. Was bedeutet das?",
+    antworten: [
+      "47 % aller Waren werden importiert",
+      "47 % des deutschen BIP werden durch den Export erwirtschaftet",
+      "47 % der Deutschen arbeiten im Exportsektor",
+      "Deutschland importiert 47 % mehr als es exportiert",
+    ],
+    richtig: 1,
+    erklaerung_richtig: "Exportquote = Anteil der Exporte am BIP. 47 % bedeutet: fast die Hälfte der deutschen Wirtschaftsleistung hängt am Export. Deshalb ist Deutschland so stark auf offene Märkte angewiesen – Protektionismus anderer Länder trifft uns doppelt.",
+    erklaerung_falsch: "Exportquote misst den Anteil der Exporte am BIP, nicht Importanteile (A/D) oder Beschäftigungsquoten (C). Deutschland ist eine der exportabhängigsten Volkswirtschaften der Welt.",
+  },
+  // DS 2
+  {
+    ds: "DS 2",
+    frage: "Wofür steht die Abkürzung „WTO"?",
+    antworten: [
+      "World Technology Organization",
+      "Welthandelsorganisation (World Trade Organization)",
+      "Westliche Trademarks Organisation",
+      "World Treasury Office",
+    ],
+    richtig: 1,
+    erklaerung_richtig: "WTO = World Trade Organization, auf Deutsch: Welthandelsorganisation. Gegründet 1995 in Genf als Nachfolgerin des GATT (1947). 164 Mitglieder, regelt den Welthandel, schlichtet Streitigkeiten.",
+    erklaerung_falsch: "WTO steht eindeutig für World Trade Organization. Die anderen Optionen sind erfunden. Wichtig: WTO ≠ Weltbank ≠ IWF – alle drei sind unterschiedliche Organisationen.",
+  },
+  {
+    ds: "DS 2",
+    frage: "Welche Stimmrechte haben die USA im IWF?",
+    antworten: [
+      "Ca. 5 %",
+      "Ca. 10 %",
+      "Ca. 15,6 % – damit faktisches Vetorecht",
+      "Ca. 30 %",
+    ],
+    richtig: 2,
+    erklaerung_richtig: "USA: 15,6 % der Stimmrechte im IWF. Da wichtige Entscheidungen 85 % Mehrheit brauchen, haben die USA faktisch ein Vetorecht. Alle afrikanischen Länder zusammen: nur ca. 5 % – obwohl sie die häufigsten Kreditnehmer sind.",
+    erklaerung_falsch: "5 % (A) wäre der Anteil aller afrikanischen Länder zusammen. 30 % (D) hat kein einzelnes Land. Die korrekte Zahl für die USA ist 15,6 % – was durch die 85%-Hürde zum Vetorecht wird.",
+  },
+  {
+    ds: "DS 2",
+    frage: "Was ist der „Washington Consensus"?",
+    antworten: [
+      "Ein Militärbündnis zwischen den USA und Kanada",
+      "Das neoliberale IWF-Rezept: Sparen, privatisieren, liberalisieren",
+      "Ein Handelsabkommen zwischen USA, Mexiko und Kanada",
+      "Die gemeinsame Außenpolitik der NATO-Staaten",
+    ],
+    richtig: 1,
+    erklaerung_richtig: "Washington Consensus = das wirtschaftspolitische Einheitsrezept des IWF in den 1990ern: Staatsausgaben kürzen, Staatsbetriebe privatisieren, Märkte liberalisieren – egal ob in Argentinien oder Ghana. Heute stark kritisiert wegen sozialer Kosten.",
+    erklaerung_falsch: "Der Washington Consensus ist weder ein Militärbündnis (A) noch ein Handelsabkommen (C – das wäre USMCA) noch eine Außenpolitik (D). Er bezeichnet das wirtschaftspolitische Standardprogramm des IWF.",
+  },
+  {
+    ds: "DS 2",
+    frage: "Was finanzierte die Weltbank beim Lilongwe Water Project in Malawi?",
+    antworten: [
+      "Eine neue Hauptstadt für Malawi",
+      "Wasserversorgung und Abwasserentsorgung für 400.000 Menschen",
+      "Ein Staudamm für Stromproduktion",
+      "Ausrüstung für die malawische Armee",
+    ],
+    richtig: 1,
+    erklaerung_richtig: "Das Lilongwe Water and Sanitation Project (2017–2023): 100 Mio. US-$ zinsloses Darlehen der Weltbank → 400.000 Menschen erhielten erstmals Zugang zu sauberem Trinkwasser. Positives Beispiel für Entwicklungsfinanzierung.",
+    erklaerung_falsch: "Das Projekt war kein Staudamm, keine neue Hauptstadt und keine Rüstung. Es war gezielt auf Trinkwasser und Sanitärversorgung ausgerichtet – eines der erfolgreichsten Weltbank-Projekte in der Region.",
+  },
+  {
+    ds: "DS 2",
+    frage: "Was ist der „Corruption Perceptions Index" (CPI) von Transparency International?",
+    antworten: [
+      "Eine Rangliste der teuersten Länder der Welt",
+      "Ein jährlicher Index, der 180 Länder nach wahrgenommener Korruption bewertet",
+      "Ein Maß für die Wirtschaftsleistung von Entwicklungsländern",
+      "Eine Liste der korruptesten Unternehmen weltweit",
+    ],
+    richtig: 1,
+    erklaerung_richtig: "CPI 2023: Skala 0 (sehr korrupt) bis 100 (sehr sauber). Spitze: Dänemark (90), Finnland (87). Deutschland: 78. Schlusslicht: Somalia (11), Sudan (13). Der CPI erzeugt öffentlichen Druck auf korrupte Regierungen.",
+    erklaerung_falsch: "Der CPI misst keine Lebenshaltungskosten (A), kein BIP (C) und keine Unternehmenskorruption (D). Er bewertet speziell die wahrgenommene Korruption im öffentlichen Sektor von 180 Ländern.",
+  },
+  {
+    ds: "DS 2",
+    frage: "Was können NGOs, was WTO, IWF und Weltbank nicht können?",
+    antworten: [
+      "Kredite an Entwicklungsländer vergeben",
+      "Handelsregeln für alle Länder verbindlich festlegen",
+      "Missstände öffentlich benennen ohne Rücksicht auf Diplomatie",
+      "Militärische Konflikte schlichten",
+    ],
+    richtig: 2,
+    erklaerung_richtig: "NGOs wie Transparency International oder Greenpeace sind unabhängig von Staaten – sie müssen keine diplomatischen Rücksichten nehmen. Sie können Korruption, Umweltschäden oder Menschenrechtsverletzungen offen benennen, Whistleblower schützen und öffentlichen Druck erzeugen.",
+    erklaerung_falsch: "Kredite (A) vergeben IWF und Weltbank, nicht NGOs. Handelsregeln (B) setzt die WTO. Militärkonflikte (D) schlichtet keine dieser Organisationen. Die besondere Stärke von NGOs ist ihre Unabhängigkeit und öffentliche Stimme.",
+  },
+  // DS 3
+  {
+    ds: "DS 3",
+    frage: "Was bedeutet „Nearshoring"?",
+    antworten: [
+      "Produktion ins eigene Land zurückverlagern",
+      "Produktion in geografisch oder politisch nahe Länder verlagern",
+      "Online-Handel ohne physische Läden",
+      "Küstennahe Fischerei als Wirtschaftsform",
+    ],
+    richtig: 1,
+    erklaerung_richtig: "Nearshoring = Verlagerung in nahe Länder statt weit entfernte Billiglohnländer. Beispiel: US-Konzerne verlagern von China nach Mexiko. Deutsche Konzerne von China nach Polen oder Türkei. Ziel: kürzere Lieferketten, weniger Risiko.",
+    erklaerung_falsch: "Reshoring (A) wäre die Rückverlagerung ins Heimatland. Nearshoring bedeutet geografisch nah, aber nicht im eigenen Land. Es hat nichts mit Online-Handel (C) oder Fischerei (D) zu tun.",
+  },
+  {
+    ds: "DS 3",
+    frage: "Warum geriet VW 2024 in eine Krise?",
+    antworten: [
+      "Wegen eines großen Datenschutzskandals",
+      "Wegen zu hoher Produktionskosten in Deutschland und chinesischer Konkurrenz",
+      "Weil VW seine Elektroauto-Sparte verkauft hat",
+      "Wegen Naturkatastrophen in den Werken",
+    ],
+    richtig: 1,
+    erklaerung_richtig: "VW 2024: erstmals in der Unternehmensgeschichte drohten Werksschließungen in Deutschland. Gründe: zu hohe Lohn- und Energiekosten am Standort DE, zu langsame Transformation zur E-Mobilität, und chinesische E-Auto-Konkurrenz (BYD) macht Marktanteile streitig.",
+    erklaerung_falsch: "VW hatte keinen Datenschutzskandal (A – das war eher Dieselgate 2015), verkaufte keine E-Sparte (C) und litt nicht unter Naturkatastrophen (D). Die Krise 2024 ist ein strukturelles Wettbewerbs- und Kostenproblem.",
+  },
+  {
+    ds: "DS 3",
+    frage: "Was ist „Friendshoring"?",
+    antworten: [
+      "Produktion wird nur in politisch verbündete Länder verlagert",
+      "Freundschaftliche Handelsabkommen zwischen Nachbarstaaten",
+      "Soziale Netzwerke für den internationalen Warenaustausch",
+      "Günstige Kredite zwischen befreundeten Zentralbanken",
+    ],
+    richtig: 0,
+    erklaerung_richtig: "Friendshoring = Produktion nur in politisch befreundeten Ländern. USA wollen keine Halbleiter mehr aus China → Verlagerung nach Taiwan, Japan, Deutschland. Ziel: strategische Unabhängigkeit von geopolitischen Gegnern.",
+    erklaerung_falsch: "Friendshoring beschreibt keine Handelsabkommen (B), keine sozialen Netzwerke (C) und keine Zentralbank-Kredite (D). Es ist eine geopolitisch motivierte Verlagerungsstrategie für Lieferketten.",
+  },
+  {
+    ds: "DS 3",
+    frage: "Was zeigte der Economist 2023 mit der Schlagzeile „Deutschland – der kranke Mann Europas"?",
+    antworten: [
+      "Deutschland hat das schlechteste Gesundheitssystem in Europa",
+      "Deutschlands Wirtschaft schrumpfte als einzige große Volkswirtschaft der Welt",
+      "Deutschland hat die meisten Krankheitstage pro Arbeitnehmer",
+      "Das Gesundheitssystem ist reformbedürftig",
+    ],
+    richtig: 1,
+    erklaerung_richtig: "Deutschland schrumpfte 2023 und 2024 wirtschaftlich – als einzige große Volkswirtschaft weltweit. Gründe: hohe Energiepreise nach Ukraine-Krieg, schwache Investitionen, Fachkräftemangel, Strukturprobleme in der Automobilindustrie.",
+    erklaerung_falsch: "Die Schlagzeile bezog sich auf die Wirtschaftsleistung, nicht auf Gesundheitssystem oder Krankentage. Der Begriff „kranker Mann" ist eine historische Metapher für wirtschaftliche Schwäche – hier auf Deutschland angewendet.",
+  },
+  {
+    ds: "DS 3",
+    frage: "Was ist der „US Chips Act" (2022)?",
+    antworten: [
+      "Ein Gesetz zur Regulierung von Kartoffelchips-Importen",
+      "52 Mrd. US-$ Investition in heimische Halbleiterproduktion zur Unabhängigkeit von Asien",
+      "Ein Abkommen zwischen USA und China über Technologietransfer",
+      "Ein Steuergesetz für US-amerikanische Technologieunternehmen",
+    ],
+    richtig: 1,
+    erklaerung_richtig: "US CHIPS Act 2022: 52 Mrd. US-$ Subventionen für heimische Chipproduktion. Ziel: USA wollen nicht mehr 90 % der modernsten Chips von TSMC (Taiwan) abhängig sein – aus Angst vor chinesischer Invasion Taiwans. EU und Deutschland folgten mit eigenem Chips Act.",
+    erklaerung_falsch: "Chips = Halbleiter/Mikrochips, nicht Kartoffelchips (A). Es ist kein Abkommen mit China (C) – im Gegenteil, es soll Unabhängigkeit von China schaffen. Und es ist kein normales Steuergesetz (D), sondern ein Industriesubventionsprogramm.",
+  },
+  {
+    ds: "DS 3",
+    frage: "Welcher chinesische Autohersteller überholte VW 2023 als meistverkaufte Marke weltweit?",
+    antworten: [
+      "Geely",
+      "NIO",
+      "BYD (Build Your Dreams)",
+      "SAIC",
+    ],
+    richtig: 2,
+    erklaerung_richtig: "BYD (Build Your Dreams) überholte 2023 VW als meistverkaufte Automarke weltweit – vor allem dank E-Autos. BYD wird massiv vom chinesischen Staat subventioniert. Die EU reagierte mit Schutzzöllen von bis zu 45 %.",
+    erklaerung_falsch: "Geely (A) und NIO (B) sind ebenfalls chinesische Hersteller, aber nicht Marktführer. SAIC (D) ist ein staatlicher Konzern, aber ohne die Marktdominanz von BYD. BYD ist der entscheidende Akteur in der globalen E-Auto-Revolution.",
+  },
+  {
+    ds: "DS 3",
+    frage: "Was bedeutet es, wenn sich die „Terms of Trade" für ein Land verschlechtern?",
+    antworten: [
+      "Das Land muss mehr exportieren, um dieselbe Menge importieren zu können",
+      "Das Land handelt weniger mit anderen Ländern",
+      "Die WTO-Mitgliedschaft wird teurer",
+      "Das Land verliert politischen Einfluss in internationalen Verhandlungen",
+    ],
+    richtig: 0,
+    erklaerung_richtig: "Verschlechterung der Terms of Trade: Exportpreise sinken relativ zu Importpreisen. Beispiel Ghana: 1980 reichten 10 kg Kakao für 1 Maschine, 2010 brauchte Ghana 25 kg Kakao für dieselbe Maschine. Ghana arbeitet mehr – und bekommt weniger.",
+    erklaerung_falsch: "Terms of Trade beschreiben das Preisverhältnis, nicht das Handelsvolumen (B), WTO-Gebühren (C) oder politischen Einfluss (D). Verschlechterung bedeutet: das Land muss mehr exportieren für dasselbe Importvolumen.",
+  },
+  {
+    ds: "DS 3",
+    frage: "Was beschreibt der Begriff „Hyperglobalisierung"?",
+    antworten: [
+      "Globalisierung nur in bestimmten Hypermarkt-Ketten",
+      "Die Phase extremer weltweiter wirtschaftlicher Verflechtung seit den 1990ern",
+      "Besonders schnelle Lieferung von Waren über Grenzen hinweg",
+      "Die Globalisierung von Hochgeschwindigkeitszügen",
+    ],
+    richtig: 1,
+    erklaerung_richtig: "Hyperglobalisierung = Phase der 1990er bis ca. 2008/2016, in der der Welthandel schneller wuchs als die Weltwirtschaft. Globale Lieferketten, sinkende Transportkosten, WTO-Beitritt Chinas 2001. Deutschland war ein Hauptgewinner. Seit 2016/2020 dreht sich der Trend.",
+    erklaerung_falsch: "Hyperglobalisierung hat nichts mit Supermärkten (A), Liefergeschwindigkeit (C) oder Zügen (D) zu tun. Es bezeichnet eine wirtschaftshistorische Epoche intensiver globaler Verflechtung.",
+  },
+];
+
+// Zufällige Reihenfolge
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// ── State ─────────────────────────────────────────────────────────────────────
+let fragenGemischt = [];
+let aktuelleIdx = 0;
+let richtigCount = 0;
+let falschCount  = 0;
+let timerInterval = null;
+let sekunden = 0;
+let beantwortet = false;
+
+document.getElementById("fragen-count").textContent = FRAGEN.length;
+
+function formatZeit(s) {
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return `${String(m).padStart(2,"0")}:${String(sec).padStart(2,"0")}`;
+}
+
+function startTimer() {
+  sekunden = 0;
+  timerInterval = setInterval(() => {
+    sekunden++;
+    document.getElementById("timer").textContent = formatZeit(sekunden);
+  }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timerInterval);
+}
+
+function showScreen(id) {
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+function updateProgress() {
+  const pct = (aktuelleIdx / fragenGemischt.length) * 100;
+  document.getElementById("progress").style.width = pct + "%";
+}
+
+function startQuiz() {
+  fragenGemischt = shuffle(FRAGEN);
+  aktuelleIdx = 0;
+  richtigCount = 0;
+  falschCount  = 0;
+  sekunden     = 0;
+  startTimer();
+  showScreen("screen-frage");
+  zeigeFrage();
+}
+
+function zeigeFrage() {
+  beantwortet = false;
+  const q = fragenGemischt[aktuelleIdx];
+  const total = fragenGemischt.length;
+
+  document.getElementById("frage-nr").textContent =
+    `Frage ${aktuelleIdx + 1} / ${total}`;
+
+  const badge = document.getElementById("ds-badge");
+  badge.textContent = q.ds;
+  badge.className = "ds-badge" +
+    (q.ds === "DS 2" ? " ds2" : q.ds === "DS 3" ? " ds3" : "");
+
+  document.getElementById("frage-text").textContent = q.frage;
+
+  // Antworten mischen (aber richtige Position merken)
+  const indexiert = q.antworten.map((a, i) => ({ text: a, original: i }));
+  const gemischt  = shuffle(indexiert);
+  const richtigerNew = gemischt.findIndex(a => a.original === q.richtig);
+
+  const container = document.getElementById("antworten");
+  container.innerHTML = "";
+  gemischt.forEach((a, i) => {
+    const btn = document.createElement("button");
+    btn.className = "antwort-btn";
+    btn.textContent = a.text;
+    btn.dataset.idx = i;
+    btn.dataset.richtig = (i === richtigerNew) ? "1" : "0";
+    btn.addEventListener("click", () => antwortGewaehlt(btn, richtigerNew, q));
+    container.appendChild(btn);
+  });
+
+  const fb = document.getElementById("feedback");
+  fb.className = "feedback";
+  fb.innerHTML = "";
+
+  document.getElementById("weiter-btn").classList.remove("show");
+  updateProgress();
+}
+
+function antwortGewaehlt(geklickt, richtigerIdx, q) {
+  if (beantwortet) return;
+  beantwortet = true;
+
+  const btns = document.querySelectorAll(".antwort-btn");
+  const istRichtig = geklickt.dataset.richtig === "1";
+
+  btns.forEach((btn, i) => {
+    btn.disabled = true;
+    if (btn.dataset.richtig === "1") {
+      btn.classList.add("richtig");
+    } else if (btn === geklickt && !istRichtig) {
+      btn.classList.add("falsch");
+    } else {
+      btn.classList.add("neutral");
+    }
+  });
+
+  const fb = document.getElementById("feedback");
+  if (istRichtig) {
+    richtigCount++;
+    fb.className = "feedback richtig show";
+    fb.innerHTML = `<strong>✓ Richtig!</strong>${q.erklaerung_richtig}`;
+  } else {
+    falschCount++;
+    fb.className = "feedback falsch show";
+    fb.innerHTML = `<strong>✗ Leider falsch.</strong>${q.erklaerung_falsch}`;
+  }
+
+  document.getElementById("weiter-btn").classList.add("show");
+}
+
+function naechste() {
+  aktuelleIdx++;
+  if (aktuelleIdx >= fragenGemischt.length) {
+    zeigeErgebnis();
+  } else {
+    zeigeFrage();
+  }
+}
+
+function zeigeErgebnis() {
+  stopTimer();
+  document.getElementById("progress").style.width = "100%";
+
+  const total = fragenGemischt.length;
+  const pct   = Math.round((richtigCount / total) * 100);
+
+  const ring = document.getElementById("score-ring");
+  if (pct >= 80) ring.style.background = "var(--gd)";
+  else if (pct >= 60) ring.style.background = "var(--bm)";
+  else ring.style.background = "var(--ac)";
+
+  document.getElementById("score-text").textContent = `${richtigCount}/${total}`;
+  document.getElementById("stat-richtig").textContent = richtigCount;
+  document.getElementById("stat-falsch").textContent  = falschCount;
+  document.getElementById("stat-zeit").textContent    = formatZeit(sekunden);
+
+  let titel, text;
+  if (pct >= 90) {
+    titel = "Ausgezeichnet! 🏆";
+    text  = "Du beherrschst die Einheit hervorragend. Sehr gut für die Prüfung vorbereitet!";
+  } else if (pct >= 70) {
+    titel = "Gut gemacht! 👍";
+    text  = "Solide Leistung! Schau dir nochmal die Fragen an, bei denen du falsch lagst.";
+  } else if (pct >= 50) {
+    titel = "Noch Luft nach oben 📚";
+    text  = "Wiederhole die Merkblätter zu DS 1–3 und spiele das Quiz nochmal!";
+  } else {
+    titel = "Nochmal üben! 💪";
+    text  = "Kein Problem – lerne mit den Merkblättern und versuche es erneut.";
+  }
+
+  document.getElementById("ergebnis-titel").textContent = titel;
+  document.getElementById("ergebnis-text").textContent  = text;
+
+  showScreen("screen-ergebnis");
+}
+
+function restartQuiz() {
+  showScreen("screen-start");
+  document.getElementById("timer").textContent = "00:00";
+  document.getElementById("progress").style.width = "0%";
+}
+</script>
+</body>
+</html>
